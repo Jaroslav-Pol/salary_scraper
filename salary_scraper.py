@@ -20,14 +20,15 @@ result_dic = {'position': [],
               'bruto': []
               }
 
-# def last_page():
-#     """returns last page of the current search (in cvbankas.lt)"""
-#     driver.get(base_url + '1')  # adds page number
-#     content = driver.page_source
-#     soup = BeautifulSoup(content)
-#     driver.quit()
-#     html_elements = soup.find(class_='pages_ul_inner').find_all('a')
-#     return int(html_elements[-1].text)
+
+def last_page():
+    """returns last page of the current search (in cvbankas.lt)"""
+    driver.get(base_url + '1')  # adds page number
+    content = driver.page_source
+    soup = BeautifulSoup(content)
+    driver.quit()
+    html_elements = soup.find(class_='pages_ul_inner').find_all('a')
+    return int(html_elements[-1].text)
 
 
 # for page in range(last_page()):
@@ -35,7 +36,7 @@ result_dic = {'position': [],
 #     new_url = base_url + str(page + 1)
 #     print(new_url)
 
-driver.get(base_url)
+driver.get(base_url + '1')
 content = driver.page_source
 soup = BeautifulSoup(content)
 driver.quit()
