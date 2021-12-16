@@ -13,7 +13,7 @@ from selenium import webdriver
 #
 driver = webdriver.Chrome(executable_path='C:/Users/jaros/Desktop/Python/WebScraping/chromedriver.exe')
 base_url = 'https://www.cvbankas.lt/?padalinys%5B0%5D=76&page='
-results = []
+
 result_dic = {'position': [],
               'company': [],
               'salary range': [],
@@ -21,18 +21,19 @@ result_dic = {'position': [],
               }
 
 
-# def last_page():
-#     """returns last page of the current search (in cvbankas.lt)"""
-#     driver.get(base_url + '1')  # adds page number
-#     content = driver.page_source
-#     soup = BeautifulSoup(content)
-#     driver.quit()
-#     html_elements = soup.find(class_='pages_ul_inner').find_all('a')
-#     return int(html_elements[-1].text)
-# print(last_page())
+def last_page():
+    """returns last page of the current search (in cvbankas.lt)"""
+    driver.get(base_url + '1')  # adds page number
+    content = driver.page_source
+    soup = BeautifulSoup(content)
+
+    html_elements = soup.find(class_='pages_ul_inner').find_all('a')
+    return int(html_elements[-1].text)
+print(last_page())
 
 
-for page in range(12):
+for page in range(last_page()):
+    results = []
     time.sleep(2)
     new_url = base_url + str(page + 1)
     print(new_url)
@@ -40,7 +41,6 @@ for page in range(12):
     driver.get(new_url)
     content = driver.page_source
     soup = BeautifulSoup(content)
-    # driver.quit()
 
     for a in soup.find_all(class_='list_a_wrapper'):
         try:
@@ -66,4 +66,6 @@ for page in range(12):
 driver.quit()
 print(result_dic)
 df = pd.DataFrame(result_dic)
-df.to_csv('salaries2.csv', index=False, encoding='utf-8')
+df.to_csv('salaries5.csv', index=False, encoding='utf-8')
+
+#padaryti if el in results - pass
